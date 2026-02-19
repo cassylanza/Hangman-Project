@@ -1,0 +1,81 @@
+#hangman {
+    font-family: 'Arial', sans-serif;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #word {
+    letter-spacing: 10px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #status {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-wrap: nowrap;
+  }
+  #guessedLetters {
+    font-family:'Arial', sans-serif;
+    font-size: 18px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #guess {
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 18px;
+    width: 50px;
+    text-align: center;
+    border-radius: 15px;
+  }
+  #guessLabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: black;
+    margin-right: 10px;
+  }
+  #guessbutton {
+    margin: 0 auto;
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #436a44;
+    color: white;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  #guessbutton:hover {
+    background-color: #95b996;
+  }
+  #newGameButton {
+    margin: 0 auto;
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  #newGameButton:hover {
+    background-color: #808080;
+  }
+  #hangmanImage {
+    justify-content: center;
+    border: 1px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    border-radius: 15px;
+  }

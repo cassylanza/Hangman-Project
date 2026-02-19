@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hangman Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1 id="hangman">Hangman</h1>
+  <div style="display: flex; justify-content: center; align-items: center; background-color:#95b996">
+    <div style="margin-right: 50px; border-radius: 15px; background-color: white; border: 1px solid black; padding: 20px">
+      <pre id="word">Loading . . .</pre>
+      <p id="status">Incorrect guesses: 0, Attempts left: 6</p>
+      <p id="guessedLetters">Guessed letters: </p>
+    </div>
+    <div>
+      <img id="hangmanImage" src="/images/image1.jpg" width="80%" />
+    </div>
+  </div>
+  <div style="text-align: center;">
+    <label id="guessLabel" for="guess">Enter a letter:</label>
+    <input 
+      type="text" 
+      id="guess" 
+      maxlength="1" 
+      pattern="[a-zA-Z]"
+      title="Must be a single alphabet letter"
+      required 
+    />
+    <button id="guessbutton" onclick="submitGuess(); clearField()">Guess</button>
+    <button id="newGameButton" onclick="window.location.reload()">New Game</button>
+  </div>
+
+  <script>
+
+    {/* Add event listener to input field to allow pressing Enter to submit guess */}
+    var inputField = document.getElementById("guess");
+    inputField.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitGuess();
+        clearField();
+      }
+    });
+
+    let gameOver = false;
+    
+    {/* Function to handle guess submission */}
+    async function submitGuess() {
+      if (gameOver) return;
+
+      {/* Validate input: must be a single alphabet letter and not already guessed */}
+
+      const letter = document.getElementById("guess").value;
+
+      if (!letter || !/^[a-zA-Z]$/.test(letter)) {
+        alert("Please enter a single alphabet letter.");
+        clearField();
+        return;
+      }
+
+      if (document.getElementById("guessedLetters").innerText.slice(17).includes(letter.toLowerCase())) {
+        alert("You have already guessed that letter. Try a different one.");
+        clearField();
+        return;
+      }
+
+      function clearField() {
+        document.getElementById("guess").value = "";
+      }
+      
+      {/* Send guess to server and update UI based on response */}
+      const response = await fetch("/guess", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ letter }),
+      });
+
+      {/* Handle server response and update game state accordingly */}
+      const data = await response.json();
+      document.getElementById("word").innerText = data.displayWord;
+      document.getElementById("hangmanImage").src = `/images/image${data.image}.jpg`;
+
+      document.getElementById("status").innerText =
+        `Incorrect guesses: ${data.incorrectGuesses}, Attempts left: ${data.remainingAttempts}`;
+      document.getElementById("guessedLetters").innerText = `Guessed letters: ${data.lettersGuessed.join(", ")}`;
+
+      if (data.gameOver) {
+        gameOver = true;
+        document.getElementById("status").innerText += data.win
+          ? " - You won!"
+          : " - You lost! The word was: " + data.word.replace(/ /g, "");
+      }
+
+      document.getElementById("guess").value = "";
+    }
+    
+    {/* Initialize game on page load */}
+    window.onload = async () => {
+      const response = await fetch("/new-game", {
+        method: "POST"
+      });
+
+      const data = await response.json();
+
+      document.getElementById("word").innerText = "_".repeat(data.wordLength).trim();
+
+      document.getElementById("hangmanImage").src = "/images/image0.jpg";
+    };
+
+  </script>
+</body>
+</html>
