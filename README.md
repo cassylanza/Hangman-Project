@@ -1,6 +1,6 @@
 # Hangman
 
-A full-stack Hangman web application built with TypeScript, featuring an interactive frontend and an Express-based backend. Players guess letters to uncover a hidden word before running out of attempts.
+A simple Hangman web application built with TypeScript, featuring an interactive frontend and an Express-based backend. Players guess letters to uncover a hidden word before running out of attempts.
 
 ---
 ## Table of Contents
