@@ -14,7 +14,7 @@ let incorrectGuesses = 0;
 const maxAttempts = 6;
 
 // Load word list from file
-const filePath = "/Users/cassandralanza/Hangman Project/common-7-letter-words.txt";
+const filePath = "./common-7-letter-words.txt";
 wordList = fs.readFileSync(filePath, "utf-8")
 	.split("\n")
 	.map((w) => w.trim().toLowerCase());
